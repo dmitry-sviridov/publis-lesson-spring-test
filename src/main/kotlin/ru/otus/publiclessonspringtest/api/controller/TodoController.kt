@@ -8,25 +8,25 @@ import ru.otus.publiclessonspringtest.service.TodoService
 
 @RestController
 @RequestMapping("/api/todo")
-class TodoController(private val todoService: TodoService, val objectMapper: ObjectMapper) {
+class TodoController(private val todoService: TodoService) {
 
     @GetMapping("/create")
     fun createNewTodoList(@RequestParam title: String): GenericResponse<TodoListEntity> {
         return GenericResponse(data = todoService.saveTodoList(title))
     }
 
-    @GetMapping("/{id}")
-    fun getTodoListById(@PathVariable id: Long): GenericResponse<TodoListEntity?> {
-        return GenericResponse(data = todoService.getTodoListById(id))
+    @GetMapping("/{listId}")
+    fun getTodoListById(@PathVariable listId: Long): GenericResponse<TodoListEntity?> {
+        return GenericResponse(data = todoService.getTodoListById(listId))
     }
 
-    @GetMapping("/{id}/create")
-    fun createTodoItemInTodo(@PathVariable id: Long, @RequestParam title: String): GenericResponse<TodoListEntity> {
-        return GenericResponse(data = todoService.createTodoItem(id, title))
+    @GetMapping("/{listId}/create")
+    fun createTodoItemInTodo(@PathVariable listId: Long, @RequestParam title: String): GenericResponse<TodoListEntity> {
+        return GenericResponse(data = todoService.createTodoItem(listId, title))
     }
 
-    @GetMapping("/{listId}/markAsDone/{todoItemId}")
-    fun markTodoItemAsDone(@PathVariable listId: Long, @PathVariable todoItemId: Long): GenericResponse<TodoListEntity> {
-        return GenericResponse(data = todoService.completeTodoItem(itemId = todoItemId, todoListId = listId))
+    @GetMapping("/{listId}/markAsDone/{itemId}")
+    fun markTodoItemAsDone(@PathVariable listId: Long, @PathVariable itemId: Long): GenericResponse<TodoListEntity> {
+        return GenericResponse(data = todoService.completeTodoItem(itemId = itemId, listId = listId))
     }
 }

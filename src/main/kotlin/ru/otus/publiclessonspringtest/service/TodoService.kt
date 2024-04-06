@@ -18,20 +18,20 @@ class TodoService(
         return todoListRepository.save(TodoListEntity(title = title))
     }
 
-    fun getTodoListById(todoId: Long): TodoListEntity {
-       return todoListRepository.findById(todoId).orElseThrow { NotFoundException() }
+    fun getTodoListById(listId: Long): TodoListEntity {
+       return todoListRepository.findById(listId).orElseThrow { NotFoundException() }
     }
 
-    fun createTodoItem(todoId: Long, itemDescription: String): TodoListEntity {
-        val todo = todoListRepository.findById(todoId).orElseThrow { NotFoundException() }
+    fun createTodoItem(listId: Long, itemDescription: String): TodoListEntity {
+        val todo = todoListRepository.findById(listId).orElseThrow { NotFoundException() }
         val todoItem = TodoItemEntity(description = itemDescription, todoList = todo)
         todoItemRepository.save(todoItem)
         return todoItem.todoList
     }
 
-    fun completeTodoItem(itemId: Long, todoListId: Long): TodoListEntity {
+    fun completeTodoItem(itemId: Long, listId: Long): TodoListEntity {
         val todoItem = todoItemRepository.findById(itemId).orElseThrow { NotFoundException() }.apply {
-            if (this.todoList.id != todoListId) {
+            if (this.todoList.id != listId) {
                 throw AccessException()
             }
             isDone = true
