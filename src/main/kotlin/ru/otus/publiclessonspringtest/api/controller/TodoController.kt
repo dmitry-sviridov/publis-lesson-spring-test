@@ -16,7 +16,7 @@ class TodoController(private val todoService: TodoService) {
     }
 
     @GetMapping("/{listId}")
-    fun getTodoListById(@PathVariable listId: Long): GenericResponse<TodoListEntity?> {
+    fun getTodoListById(@PathVariable listId: Long): GenericResponse<TodoListEntity> {
         return GenericResponse(data = todoService.getTodoListById(listId))
     }
 
